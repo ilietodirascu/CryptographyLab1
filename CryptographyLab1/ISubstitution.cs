@@ -8,7 +8,7 @@ namespace CryptographyLab1
 {
     public interface ISubstitution<T>
     {
-        public string Encrypt(string word, Key<T> key);
-        public string Decrypt(string word, Key<T> key);
+        public string Encrypt(string word, T key);
+        public string Decrypt(string word, T key);
     }
 }

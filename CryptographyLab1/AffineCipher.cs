@@ -9,22 +9,22 @@ namespace CryptographyLab1
 {
     public class AffineCipher : ISubstitution<KeyValuePair<int, int>>
     {
-        public string Decrypt(string text, Key<KeyValuePair<int, int>> key)
+        public string Decrypt(string text, KeyValuePair<int, int> key)
         {
             return DoCryptoAction(text.ToLower().Split(" "), false, key);
         }
 
-        public string Encrypt(string text, Key<KeyValuePair<int, int>> key)
+        public string Encrypt(string text, KeyValuePair<int, int> key)
         {
             return DoCryptoAction(text.ToLower().Split(" "), true, key);
         }
-        private string DoCryptoAction(string[] words, bool encrypt, Key<KeyValuePair<int, int>> key)
+        private string DoCryptoAction(string[] words, bool encrypt, KeyValuePair<int, int> key)
         {
             var caesar = new CaesarCipher();
             //i know there is no point in using my substitution methods from caesar, but i started writing code before i knew how affine works.
-            Func<string, Key<int>, string> cryptAction = encrypt ? caesar.Encrypt : caesar.Decrypt;
-            if (key.Value.Key < 1 || key.Value.Key > Utility.Alphabet.Count - 1 || key.Value.Value < 0 || key.Value.Value > Utility.Alphabet.Count - 1
-                || Utility.GCD(key.Value.Key, key.Value.Value) != 1)
+            Func<string, int, string> cryptAction = encrypt ? caesar.Encrypt : caesar.Decrypt;
+            if (key.Key < 1 || key.Key > Utility.Alphabet.Count - 1 || key.Value < 0 || key.Value > Utility.Alphabet.Count - 1
+                || Utility.GCD(key.Key, key.Value) != 1)
             {
                 return "Wrong key";
             }
@@ -37,12 +37,12 @@ namespace CryptographyLab1
                     var step = 0;
                     if (encrypt)
                     {
-                        step = step = key.Value.Key * (Utility.Alphabet.FindIndex(x => x == word[i])) + key.Value.Value;
-                        encryptedWord += cryptAction(Utility.Alphabet[0] + "", new Key<int>(step));
+                        step = step = key.Key * (Utility.Alphabet.FindIndex(x => x == word[i])) + key.Value;
+                        encryptedWord += cryptAction(Utility.Alphabet[0] + "", step);
                     }
                     else
                     {
-                        step = Utility.Mod(Utility.ModInverse(key.Value.Key, Utility.Alphabet.Count) * (Utility.Alphabet.FindIndex(x => x == word[i]) - key.Value.Value), Utility.Alphabet.Count);
+                        step = Utility.Mod(Utility.ModInverse(key.Key, Utility.Alphabet.Count) * (Utility.Alphabet.FindIndex(x => x == word[i]) - key.Value), Utility.Alphabet.Count);
                         encryptedWord += Utility.Alphabet[step];
                     }
                 }
