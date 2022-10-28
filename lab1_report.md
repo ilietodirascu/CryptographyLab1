@@ -91,7 +91,7 @@ public int GetKey(string text)
 It inherits from Caesar the regular encryption and decryption, the only difference being that it moves every letter of the alphabet 
 to the right by n places where n is the value of the key.
 
-###Viginere
+### Viginere
 Viginere implements the ISubstitution interface but the key is of type string this time.
 The encryption and decryption is a lot more exciting too. There is still the pair of overloaded decrypt/encryp methods as in caesar because I wanted
 to actually allow the variant with the auto generated key and API decryption.
